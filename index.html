@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>HDS Home Design Solutions GmbH</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        * {
+            font-family:         'Montserrat', sans-serif;
+            margin:              0;
+            padding:             0;
+            -webkit-user-select: none;
+            cursor:              default;
+        }
+
+        #wrapper,
+        #overlay,
+        body {
+            background-attachment: fixed;
+            background-position:   center;
+            background-image:      url('assets/bg.jpg');
+            background-size:       1000px 1000px;
+        }
+
+        #wrapper {
+            z-index:        5;
+            position:       fixed;
+            left:           0px;
+            top:            0px;
+            right:          0px;
+            bottom:         0px;
+            filter:         blur(25px);
+            -webkit-filter: blur(25px);
+        }
+
+        #overlay {
+            display:            none;
+            position:           absolute;
+            z-index:            10;
+            width:              500px;
+            height:             500px;
+            -webkit-mask-image: url(assets/mask.png);
+            -moz-mask-image:    url(assets/mask.png);
+            clip-path:          url(#clipping);
+        }
+
+        #claim {
+            z-index:    20;
+            position:   fixed;
+            width:      100%;
+            text-align: center;
+            top:        50%;
+            transform:  translateY(-50%);
+        }
+
+        #claim h1 {
+            display:          inline-block;
+            padding:          1%;
+            background-color: #9aff3f;
+        }
+
+        #imprint {
+            position:         fixed;
+            z-index:          20;
+            right:            1%;
+            bottom:           1%;
+            padding:          1%;
+            background-color: #9aff3f;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            var $window = $(window),
+                $resizables = $('#wrapper, #overlay, body'),
+                $overlay = $('#overlay'),
+                $wrapper = $('#wrapper'),
+                $h1 = $('h1'),
+                $h2 = $('h2'),
+                $p = $('p');
+
+            var resize = function () {
+                var w = $window.width(),
+                    h = $window.height(),
+                    min = Math.min(w, h);
+                $resizables.css('background-size', w * 1, h * 1);
+                $h1.css('font-size', min / 20);
+                $h2.css('font-size', min / 40);
+                $p.css({
+                    'font-size':  min / 50,
+                    'margin-top': min / 50
+                });
+            };
+
+            $window.on('resize', resize);
+            resize();
+
+            $overlay.css({
+                left:    .4 * $window.width() - 250,
+                top:     .5 * $window.height() - 250,
+                display: 'block'
+            });
+
+            $('body').on('mousemove', function ($event) {
+                var blurRadius = Math.round(20 - $event.pageY / $window.height() * 15);
+                $overlay.css({
+                    left: $event.pageX - 250,
+                    top:  $event.pageY - 250
+                });
+                $wrapper.css({
+                    'filter':         'blur(' + blurRadius + 'px)',
+                    '-webkit-filter': 'blur(' + blurRadius + 'px)'
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<svg>
+    <defs>
+        <clipPath id="clipping">
+
+            <circle cx="250" cy="250" r="250" />
+
+        </clipPath>
+    </defs>
+</svg>
+<div id="wrapper">
+</div>
+<div id="overlay">
+
+</div>
+<div id="claim">
+    <h1>Home Design Solutions</h1>
+
+    <p>Coming in 2015</p>
+</div>
+
+<div id="imprint">
+    <h2>HDS Home Design Solutions GmbH</h2>
+
+    <p>Große Reichenstra&szlig;e 27<br />20457 Hamburg<br />Germany</p>
+</div>
+
+</body>
+</html>
